@@ -11,7 +11,7 @@ import (
 	"os"
 )
 
-const destURL = "http://localhost:8888/set_fpga_bitstream"
+const destURL = "http://10.168.1.166:8888/set_fpga_bitstream"
 
 func main() {
 	var bufReader bytes.Buffer
@@ -23,19 +23,19 @@ func main() {
 		fmt.Printf("createPart failed!")
 		return
 	}
-	jsonString := "{\"partial_flag\":true,\"has_wrapper\":true}"
+	jsonString := "{\"partial_flag\":true,\"partion_number\":0}"
 	_, err = jsonWriter.Write([]byte(jsonString))
 	if err != nil {
 		fmt.Printf("createPart failed!")
 		return
 	}
 
-	fw, err := mpWriter.CreateFormFile("upload_file", "pl_part_pr_wrapper_inst0_pr_inst0_pr_inst_partial.bit")
+	fw, err := mpWriter.CreateFormFile("upload_file", os.Args[1])
 	if err != nil {
 		fmt.Printf("CreateFormFile failed!")
 		return
 	}
-	f, err := os.Open("pl_part_pr_wrapper_inst0_pr_inst0_pr_inst_partial.bit")
+	f, err := os.Open(os.Args[1])
 	if err != nil {
 		fmt.Printf("CreateFormFile failed!")
 		return
